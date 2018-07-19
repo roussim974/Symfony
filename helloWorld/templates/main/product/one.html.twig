@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <a href="{{ url("product.add") }}">Add</a>
+    <h2>{{ product.name }}</h2>
+    <table class="table">
+        <tr>
+
+            <th>Release On</th>
+            <th>Action</th>
+        </tr>
+            <tr>
+
+                <td>{{ product.releaseOn|date }}</td>
+                <td>
+                    <a onclick="return confirm('are you sure?');" href="{{ url("product.delete", {"product":product.id}) }}">Delete</a>
+                </td>
+            </tr>
+
+    </table>
+{% endblock %}
