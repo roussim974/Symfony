@@ -38,6 +38,9 @@ class User implements UserInterface
      */
     private $roles;
 
+    private $plainPassword;
+
+
     public function getId()
     {
         return $this->id;
@@ -112,7 +115,7 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
-
+        $this->plainPassword=null;
     }
 
     public function addRole($role) {
@@ -124,5 +127,18 @@ class User implements UserInterface
         if ($index !== false) {
             array_splice($this->roles, $index, 1);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
     }
 }

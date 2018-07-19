@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -57,9 +58,9 @@ class ProductController extends Controller
     /**
      * @Route("/product/all", name="product.all")
      */
-    public function all()
+    public function all(EntityManagerInterface $em)
     {
-        $em = $this->getDoctrine()->getManager();
+
         $products = $em->getRepository(Product::class)->findAll();
         return $this->render("main/product/all.html.twig", ["products" => $products]);
     }
@@ -91,6 +92,9 @@ class ProductController extends Controller
         $em->flush();
         return $this->redirectToRoute("product.all");
     }
+
+
+
 
 
 }
