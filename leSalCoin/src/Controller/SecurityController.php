@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Annonce;
 use App\Entity\User;
+use App\Form\AnnonceType;
 use App\Form\UserType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +26,9 @@ class SecurityController extends Controller
     }
 
     /**
-     * @Route("/user/add", name="security_add")
+     * @Route("/user/add", name="security_add_user")
      */
-    public function addUser(Request $request,UserPasswordEncoderInterface $encoder)
+    public function addUser(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -52,6 +54,7 @@ class SecurityController extends Controller
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
+
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

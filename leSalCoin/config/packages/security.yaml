@@ -47,3 +47,4 @@ security:
           - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
           - { path: ^/user/add, roles: IS_AUTHENTICATED_ANONYMOUSLY }
           - { path: ^/, roles: ROLE_USER }
+          - { path: ^/annoncebak/add, roles: ROLE_USER }

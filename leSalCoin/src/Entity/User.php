@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -59,6 +61,16 @@ class User implements UserInterface
     private $CPassword;
 
     private $plainPassword;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Annonce", mappedBy="owner")
+     */
+    private $annonces;
+
+    public function __construct()
+    {
+        $this->annonces = new ArrayCollection();
+    }
 
 
     public function getId()
@@ -177,6 +189,37 @@ class User implements UserInterface
     public function setPlainPassword($plainPassword): void
     {
         $this->plainPassword = $plainPassword;
+    }
+
+    /**
+     * @return Collection|Annonce[]
+     */
+    public function getAnnonces(): Collection
+    {
+        return $this->annonces;
+    }
+
+    public function addAnnonce(Annonce $annonce): self
+    {
+        if (!$this->annonces->contains($annonce)) {
+            $this->annonces[] = $annonce;
+            $annonce->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnonce(Annonce $annonce): self
+    {
+        if ($this->annonces->contains($annonce)) {
+            $this->annonces->removeElement($annonce);
+            // set the owning side to null (unless already changed)
+            if ($annonce->getOwner() === $this) {
+                $annonce->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 
 
