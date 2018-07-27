@@ -9,10 +9,17 @@
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{{ path('home_page') }}">Home Page</a>
-        <a class="btn btn-primary" href="{{ path('security_add_user') }}" role="button">Sign in</a>
-        <a class="btn btn-primary" href="{{ path('security_login') }}" role="button">Login</a>
-        <a class="btn btn-primary" href="{{ path('security_add_annonce') }}" role="button">Add Annonce</a>
-        <a class="btn btn-primary" href="{{ path('security_logout') }}" role="button">Logout</a>
+        {% if app.user %}
+            <div class="col-xs-10 col-l-10">
+            <a class="btn btn-primary" href="{{ path('security_add_annonce') }}" role="button">Add Annonce</a>
+            <a class="btn btn-primary" href="{{ path('security_logout') }}" role="button">Logout</a>
+            </div>
+        {% else %}
+            <div class="pull-right">
+            <a class="btn btn-primary" href="{{ path('security_login') }}" role="button">Login</a>
+            <a class="btn btn-primary" href="{{ path('security_add_user') }}" role="button">Sign in</a>
+            </div>
+        {% endif %}
     </nav>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}

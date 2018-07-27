@@ -6,6 +6,7 @@ use App\Entity\Annonce;
 use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Form\UserType;
+use App\Service\EmailSender;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,7 @@ class SecurityController extends Controller
     /**
      * @Route("/user/add", name="security_add_user")
      */
-    public function addUser(Request $request, UserPasswordEncoderInterface $encoder)
+    public function addUser(Request $request, UserPasswordEncoderInterface $encoder, EmailSender $emailSender)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -38,6 +39,7 @@ class SecurityController extends Controller
 
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
+            $emailSender->sendWelcomeMail($user);
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute("security_login");
@@ -58,7 +60,7 @@ class SecurityController extends Controller
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        dump($error);
+        //dump($error);
 
         // last username entered by the user
         $lastEmail = $authenticationUtils->getLastUsername();

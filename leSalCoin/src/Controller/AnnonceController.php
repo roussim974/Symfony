@@ -37,5 +37,16 @@ class AnnonceController extends Controller
     }
 
 
+    /**
+     * @Route("/delete/{annonce}", name="security_delete_annonce")
+     */
+    public function delete(Annonce $annonce)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($annonce);
+        $em->flush();
+
+        return $this->redirectToRoute("home_page");
+    }
 
 }
